@@ -2,14 +2,17 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Permissions, Public, ResponseMessage, User } from 'src/decorator/customize';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @ResponseMessage('Tạo người dùng thành công')
+  @Permissions('users.created')
+  create(@Body() createUserDto: CreateUserDto , @User() user: any) {
+    return "this.usersService.create(createUserDto);"
   }
 
   @Get()
@@ -28,6 +31,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  // @Permissions('users.deleted')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }

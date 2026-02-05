@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Role } from 'src/modules/roles/schemas/role.schema';
-// import { Role } from 'src/roles/schemas/role.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -20,7 +19,7 @@ export class User {
   gender: string;
 
   @Prop()
-  phone: string;
+  phone?: string;
 
   @Prop({ default: 'ACTIVE' })
   status: 'ACTIVE' | 'LOCKED';
@@ -32,7 +31,7 @@ export class User {
   refreshTokenHash?: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Role.name })
-  role: mongoose.Schema.Types.ObjectId;
+  role: Role | mongoose.Schema.Types.ObjectId  ;
 
   @Prop({ default: false })
   isDeleted: boolean;
