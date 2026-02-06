@@ -19,7 +19,7 @@ export class CreateUserDto {
 
   @IsNotEmpty({ message: 'Role ID không được để trống' })
   @IsMongoId({ message: 'Role phải là một MongoId hợp lệ' })
-  role: mongoose.Schema.Types.ObjectId;
+  roleId: mongoose.Schema.Types.ObjectId;
 }
 
 export class RegisterUserDto {

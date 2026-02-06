@@ -6,15 +6,17 @@ import cookieParser from 'cookie-parser';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { TransformInterceptor } from './core/transform.interceptor';
 import { PermissionGuard } from './common/guards/permission.guard';
+import { UsersService } from './modules/users/users.service';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
+  const usersService = app.get(UsersService);
 
   const reflector = app.get(Reflector);
   app.useGlobalGuards(
     new JwtAuthGuard(reflector),
-    new PermissionGuard(reflector),
+    new PermissionGuard(reflector , usersService),
   );
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
 

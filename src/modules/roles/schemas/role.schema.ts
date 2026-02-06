@@ -10,7 +10,7 @@ export class Role {
   name: string;
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: Permission.name }])
-  permissions: Permission[] | mongoose.Schema.Types.ObjectId[];
+  permissions?: Permission[] | mongoose.Schema.Types.ObjectId[];
 
   @Prop({ default: false })
   isDeleted: boolean;

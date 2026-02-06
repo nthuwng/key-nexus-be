@@ -31,7 +31,7 @@ export class User {
   refreshTokenHash?: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Role.name })
-  role: Role | mongoose.Schema.Types.ObjectId  ;
+  roleId: Role | mongoose.Schema.Types.ObjectId  ;
 
   @Prop({ default: false })
   isDeleted: boolean;

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { IUser } from '../users/users.interface';
+import { IUser, IUserProfile } from '../users/users.interface';
 import { JwtService } from '@nestjs/jwt';
 import ms, { StringValue } from 'ms';
 import { ConfigService } from '@nestjs/config';
@@ -33,14 +33,14 @@ export class AuthService {
   }
 
   async login(user: IUser, response: Response) {
-    const { _id, fullName, email, role } = user;
+    const { _id, fullName, email, roleId } = user;
     const payload = {
       sub: 'token login',
       iss: 'from server',
       _id,
       fullName,
       email,
-      role,
+      roleId,
     };
 
     const refresh_token = this.createRefreshToken(payload);
@@ -64,7 +64,7 @@ export class AuthService {
         _id,
         fullName,
         email,
-        role,
+        roleId,
       },
     };
   }
@@ -82,4 +82,34 @@ export class AuthService {
 
     return refresh_token;
   };
+
+  async getAccount(user: IUser) {
+    const userData = await this.usersService.findGetAccount(user._id);
+
+    if (!userData || typeof userData === 'string') {
+      throw new BadRequestException('Không tìm thấy thông tin tài khoản');
+    }
+
+    const result: IUserProfile = {
+      _id: userData?._id?.toString() || '',
+      fullName: userData.fullName || '',
+      email: userData.email || '',
+      gender: userData.gender || '',
+      phone: userData.phone || '',
+      status: userData.status || '',
+      roleId: {
+        _id: userData.roleId?._id?.toString() || '',
+        name: userData.roleId?.name || '',
+      },
+      permissions: (userData.roleId?.permissions ?? []).map((p: any) => ({
+        _id: p._id?.toString(),
+        key: p.key,
+        method: p.method,
+        module: p.module,
+        description: p.description,
+      })),
+    };
+
+    return { user: result };
+  }
 }

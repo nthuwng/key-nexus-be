@@ -35,6 +35,6 @@ export class AuthController {
   @ResponseMessage('Lấy thông tin người dùng thành công')
   @Get('profile')
   getProfile(@User() user: IUser) {
-    return { user };
+    return this.authService.getAccount(user);
   }
 }

@@ -8,6 +8,7 @@ import { softDeletePlugin } from './common/plugins/soft-delete.plugin';
 import { RolesModule } from './modules/roles/roles.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { DatabasesModule } from './modules/databases/databases.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from './modules/auth/auth.module';
     RolesModule,
     PermissionsModule,
     AuthModule,
+    DatabasesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

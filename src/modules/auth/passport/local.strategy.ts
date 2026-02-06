@@ -14,6 +14,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException('Invalid Username/Password !');
     }
+
+    if (user.status === 'LOCKED') {
+      throw new UnauthorizedException('Tài khoản đã bị khóa!');
+    }
     return user;
   }
 }

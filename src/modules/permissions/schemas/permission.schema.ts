@@ -9,6 +9,12 @@ export class Permission {
   key: string;
 
   @Prop()
+  method: string;
+
+  @Prop()
+  module: string;
+
+  @Prop()
   description: string;
 
   @Prop({ default: false })
